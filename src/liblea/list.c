@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <liblea/list.h>
 #include <liblea/value.h>
 
@@ -40,5 +41,29 @@ LEA_API LeaError leaListReverse(LeaValue* dst, LeaValue list)
     }
 
     *dst = newList;
+    return LEA_OK;
+}
+
+LEA_API LeaError leaListCar(LeaValue* dst, LeaValue list)
+{
+    LeaPair* p;
+
+    p = leaValueGetPtr(list);
+    if (!p)
+        *dst = LEA_NIL;
+    else
+        *dst = p->car;
+    return LEA_OK;
+}
+
+LEA_API LeaError leaListCdr(LeaValue* dst, LeaValue list)
+{
+    LeaPair* p;
+
+    p = leaValueGetPtr(list);
+    if (!p)
+        *dst = LEA_NIL;
+    else
+        *dst = p->cdr;
     return LEA_OK;
 }

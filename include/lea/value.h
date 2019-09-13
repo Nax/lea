@@ -24,5 +24,7 @@ typedef uint64_t LeaValue;
 LEA_API LeaError leaListCreate(LeaValue* value);
 LEA_API LeaError leaListPrepend(LeaValue* dst, LeaValue list, LeaValue element);
 LEA_API LeaError leaListReverse(LeaValue* dst, LeaValue list);
+LEA_API LeaError leaListCar(LeaValue* dst, LeaValue list);
+LEA_API LeaError leaListCdr(LeaValue* dst, LeaValue list);
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef LIBLEA_PARSER_H
-#define LIBLEA_PARSER_H
+#ifndef LIBLEA_LEXER_H
+#define LIBLEA_LEXER_H
 
 #include <lea/lea.h>
 

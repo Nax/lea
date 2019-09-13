@@ -29,6 +29,7 @@
 
 #include <liblea/common.h>
 #include <liblea/lexer.h>
+#include <liblea/parser.h>
 #include <liblea/list.h>
 #include <liblea/value.h>
 
