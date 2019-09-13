@@ -27,32 +27,12 @@
 #ifndef LEA_H
 #define LEA_H 1
 
-#if defined(__cplusplus)
-# define LEA_API_EXTERN extern "C"
-#else
-# define LEA_API_EXTERN
-#endif
-
-#if (defined(WIN32) || defined(_WIN32)) && !(defined(LEA_STATIC))
-# if defined(LEA_DLL)
-#  define LEA_API_DECL __declspec(dllexport)
-# else
-#  define LEA_API_DECL __declspec(dllimport)
-# endif
-#else
-# define LEA_API_DECL
-#endif
-
-#define LEA_API LEA_API_EXTERN LEA_API_DECL
-
-typedef struct LeaState_ LeaState;
-
-typedef enum {
-    LEA_OK = 0,
-    LEA_ERROR_OUT_OF_MEMORY = 1,
-} LeaError;
+#include <lea/common.h>
+#include <lea/value.h>
 
 LEA_API LeaError leaCreateState(LeaState** dstState);
 LEA_API LeaError leaDestroyState(LeaState* state);
+
+LEA_API LeaError leaLoadString(LeaState* state, const char* str, size_t len);
 
 #endif

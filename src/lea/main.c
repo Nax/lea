@@ -28,9 +28,11 @@
 
 int main(int argc, char** argv)
 {
+    static const char code[] = "(print-line \"Hello, world!\")";
     LeaState* l;
 
     leaCreateState(&l);
+    leaLoadString(l, code, sizeof(code));
     leaDestroyState(l);
 
     return 0;

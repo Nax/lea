@@ -24,6 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <stdlib.h>
 #include <liblea/liblea.h>
 
 LEA_API LeaError leaCreateState(LeaState** dstState)

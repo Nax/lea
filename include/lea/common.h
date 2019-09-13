@@ -24,17 +24,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LIBLEA_H
-#define LIBLEA_H 1
+#ifndef LEA_COMMON_H
+#define LEA_COMMON_H 1
 
-#include <liblea/common.h>
-#include <liblea/lexer.h>
-#include <liblea/list.h>
-#include <liblea/value.h>
+#if defined(__cplusplus)
+# define LEA_API_EXTERN extern "C"
+#else
+# define LEA_API_EXTERN
+#endif
 
-struct LeaState_
-{
-    LeaLexer    lexer;
-};
+#if (defined(WIN32) || defined(_WIN32)) && !(defined(LEA_STATIC))
+# if defined(LEA_DLL)
+#  define LEA_API_DECL __declspec(dllexport)
+# else
+#  define LEA_API_DECL __declspec(dllimport)
+# endif
+#else
+# define LEA_API_DECL
+#endif
+
+#define LEA_API LEA_API_EXTERN LEA_API_DECL
+
+typedef struct LeaState_ LeaState;
+
+typedef enum {
+    LEA_OK = 0,
+    LEA_ERROR_OUT_OF_MEMORY = 1,
+} LeaError;
 
 #endif
