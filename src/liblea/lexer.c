@@ -82,6 +82,32 @@ static int leaLexerTokenString(LeaLexer* lex, LeaToken* tok)
     return 1;
 }
 
+static int leaLexerTokenSymbol(LeaLexer* lex, LeaToken* tok)
+{
+    char c;
+    size_t len;
+
+    c = lex->buffer[lex->cursor];
+    if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_')))
+        return 0;
+    len = 1;
+    for (;;)
+    {
+        c = lex->buffer[lex->cursor + len];
+        if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '-'))
+            break;
+        len++;
+    }
+    tok->type = TOKEN_SYMBOL;
+    tok->strLength = len;
+    tok->str = malloc(len);
+    memcpy(tok->str, lex->buffer + lex->cursor, len);
+    lex->cursor += len;
+    return 1;
+}
+#include <stdio.h>
+
+
 static void leaLexerLexToken(LeaLexer* lex, LeaToken* tok)
 {
     leaLexerSkipWS(lex);
@@ -89,6 +115,8 @@ static void leaLexerLexToken(LeaLexer* lex, LeaToken* tok)
     if (leaLexerTokenSimple(lex, tok))
         return;
     if (leaLexerTokenString(lex, tok))
+        return;
+    if (leaLexerTokenSymbol(lex, tok))
         return;
 
     if (lex->cursor == lex->bufferSize)
@@ -113,6 +141,8 @@ LeaError leaLexerLoadString(LeaState* state, const char* str, size_t size)
     lex->cursor = 0;
     lex->tokenCursor = LEXER_TOKEN_MAX - 1;
     memset(lex->tokens, 0, sizeof(LeaToken) * LEXER_TOKEN_MAX);
+
+    leaLexerNextToken(state);;
 
     return LEA_OK;
 }

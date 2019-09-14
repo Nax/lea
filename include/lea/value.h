@@ -21,17 +21,21 @@ typedef uint64_t LeaValue;
 #define LEA_FALSE   ((LeaValue)((LEA_TYPE_BOOL << 1) | (0x00 << 8)))
 #define LEA_TRUE    ((LeaValue)((LEA_TYPE_BOOL << 1) | (0x01 << 8)))
 
-/* Lists */
+/* List */
 LEA_API LeaError leaListCreate(LeaState* state, LeaValue* value);
 LEA_API LeaError leaListPrepend(LeaState* state, LeaValue* dst, LeaValue list, LeaValue element);
 LEA_API LeaError leaListReverse(LeaState* state, LeaValue* dst, LeaValue list);
 LEA_API LeaError leaListCar(LeaState* state, LeaValue* dst, LeaValue list);
 LEA_API LeaError leaListCdr(LeaState* state, LeaValue* dst, LeaValue list);
 
-/* Strings */
+/* String */
 LEA_API LeaError leaStringCreate(LeaState* state, LeaValue* value, const char* str, size_t len);
 LEA_API LeaError leaStringCreateC(LeaState* state, LeaValue* value, const char* str);
 LEA_API LeaError leaStringData(LeaState* state, const char** str, LeaValue v);
 LEA_API LeaError leaStringLength(LeaState* state, size_t* len, LeaValue v);
+
+/* Symbol */
+LEA_API LeaError leaSymbolCreate(LeaState* state, LeaValue* value, const char* str, size_t len);
+LEA_API LeaError leaSymbolCreateC(LeaState* state, LeaValue* value, const char* str);
 
 #endif

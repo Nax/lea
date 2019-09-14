@@ -6,13 +6,23 @@ static void leaDebugPrintAny(LeaState* state, LeaValue v);
 
 static void leaDebugPrintRaw(LeaState* state, LeaValue v)
 {
-    printf("#<%02X:%p>", leaValueGetType(v), leaValueGetPtr(v));
+    printf("#<%016llx>", v);
 }
 
 static void leaDebugPrintSymbol(LeaState* state, LeaValue v)
 {
     (void)v;
     printf(":SYMBOL");
+}
+
+static void leaDebugPrintString(LeaState* state, LeaValue v)
+{
+    const char* str;
+
+    leaStringData(state, &str, v);
+    putchar('"');
+    printf("%s", str);
+    putchar('"');
 }
 
 static void leaDebugPrintList(LeaState* state, LeaValue v)
@@ -46,6 +56,9 @@ static void leaDebugPrintAny(LeaState* state, LeaValue v)
         break;
     case LEA_TYPE_SYMBOL:
         leaDebugPrintSymbol(state, v);
+        break;
+    case LEA_TYPE_STRING:
+        leaDebugPrintString(state, v);
         break;
     case LEA_TYPE_LIST:
         leaDebugPrintList(state, v);

@@ -36,6 +36,18 @@ static int leaParseString(LeaState* state, LeaValue* dst)
     return 1;
 }
 
+static int leaParseSymbol(LeaState* state, LeaValue* dst)
+{
+    LeaToken* tok;
+
+    tok = accept(state, TOKEN_SYMBOL);
+    if (!tok)
+        return 0;
+
+    leaSymbolCreate(state, dst, tok->str, tok->strLength);
+    return 1;
+}
+
 static int leaParseList(LeaState* state, LeaValue* dst)
 {
     LeaValue list;
@@ -51,7 +63,6 @@ static int leaParseList(LeaState* state, LeaValue* dst)
             break;
         leaListPrepend(state, &list, list, v);
     }
-
     accept(state, TOKEN_RPAREN);
     leaListReverse(state, &list, list);
     *dst = list;
@@ -61,6 +72,8 @@ static int leaParseList(LeaState* state, LeaValue* dst)
 static int leaParseValue(LeaState* state, LeaValue* dst)
 {
     if (leaParseString(state, dst))
+        return 1;
+    if (leaParseSymbol(state, dst))
         return 1;
     if (leaParseList(state, dst))
         return 1;

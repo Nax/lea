@@ -24,6 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <string.h>
 #include <lea/lea.h>
 
 int main(int argc, char** argv)
@@ -32,7 +33,7 @@ int main(int argc, char** argv)
     LeaState* l;
 
     leaCreateState(&l);
-    leaLoadString(l, code, sizeof(code));
+    leaLoadString(l, code, strlen(code));
     leaDestroyState(l);
 
     return 0;
