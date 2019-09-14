@@ -35,4 +35,6 @@ LEA_API LeaError leaDestroyState(LeaState* state);
 
 LEA_API LeaError leaLoadString(LeaState* state, const char* str, size_t len);
 
+LEA_API LeaError leaEval(LeaState* state, LeaValue* out, LeaValue v);
+
 #endif
