@@ -2,20 +2,20 @@
 #include <liblea/debug.h>
 #include <liblea/value.h>
 
-static void leaDebugPrintAny(LeaValue v);
+static void leaDebugPrintAny(LeaState* state, LeaValue v);
 
-static void leaDebugPrintRaw(LeaValue v)
+static void leaDebugPrintRaw(LeaState* state, LeaValue v)
 {
     printf("#<%02X:%p>", leaValueGetType(v), leaValueGetPtr(v));
 }
 
-static void leaDebugPrintSymbol(LeaValue v)
+static void leaDebugPrintSymbol(LeaState* state, LeaValue v)
 {
     (void)v;
     printf(":SYMBOL");
 }
 
-static void leaDebugPrintList(LeaValue v)
+static void leaDebugPrintList(LeaState* state, LeaValue v)
 {
     int first;
     LeaValue car;
@@ -24,20 +24,20 @@ static void leaDebugPrintList(LeaValue v)
     first = 1;
     for (;;)
     {
-        leaListCar(&car, v);
+        leaListCar(state, &car, v);
         if (car == LEA_NIL)
             break;
         if (!first)
             printf(" ");
         else
             first = 0;
-        leaDebugPrintAny(car);
-        leaListCdr(&v, v);
+        leaDebugPrintAny(state, car);
+        leaListCdr(state, &v, v);
     }
     printf(")");
 }
 
-static void leaDebugPrintAny(LeaValue v)
+static void leaDebugPrintAny(LeaState* state, LeaValue v)
 {
     switch (leaValueGetType(v))
     {
@@ -45,20 +45,20 @@ static void leaDebugPrintAny(LeaValue v)
         printf("nil");
         break;
     case LEA_TYPE_SYMBOL:
-        leaDebugPrintSymbol(v);
+        leaDebugPrintSymbol(state, v);
         break;
     case LEA_TYPE_LIST:
-        leaDebugPrintList(v);
+        leaDebugPrintList(state, v);
         break;
     default:
-        leaDebugPrintRaw(v);
+        leaDebugPrintRaw(state, v);
         break;
     }
 }
 
-void leaDebugPrint(LeaValue v)
+void leaDebugPrint(LeaState* state, LeaValue v)
 {
-    leaDebugPrintAny(v);
+    leaDebugPrintAny(state, v);
     printf("\n");
     fflush(stdout);
 }

@@ -3,6 +3,7 @@
 
 #include <lea/lea.h>
 
+#define UNUSED(x)   ((void)(x))
 #define zalloc(x)   calloc(1, (x))
 
 #endif

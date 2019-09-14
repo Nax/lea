@@ -20,6 +20,7 @@ typedef enum {
 typedef struct {
     LeaTokenType    type;
     char*           str;
+    size_t          strLength;
 } LeaToken;
 
 typedef struct {

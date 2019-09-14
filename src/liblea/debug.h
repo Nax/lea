@@ -3,6 +3,6 @@
 
 #include <liblea/common.h>
 
-void leaDebugPrint(LeaValue v);
+void leaDebugPrint(LeaState* state, LeaValue v);
 
 #endif

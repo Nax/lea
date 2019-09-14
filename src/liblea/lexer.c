@@ -57,11 +57,38 @@ static int leaLexerTokenSimple(LeaLexer* lex, LeaToken* tok)
     return 0;
 }
 
+static int leaLexerTokenString(LeaLexer* lex, LeaToken* tok)
+{
+    char c;
+    size_t len;
+
+    if (lex->buffer[lex->cursor] != '"')
+        return 0;
+    lex->cursor++;
+    len = 0;
+    for (;;)
+    {
+        c = lex->buffer[lex->cursor + len];
+        if (c == 0 || c == '"')
+            break;
+        len++;
+    }
+    tok->type = TOKEN_STRING;
+    tok->strLength = len;
+    tok->str = malloc(len);
+    memcpy(tok->str, lex->buffer + lex->cursor, len);
+    lex->cursor += len;
+    lex->cursor++;
+    return 1;
+}
+
 static void leaLexerLexToken(LeaLexer* lex, LeaToken* tok)
 {
     leaLexerSkipWS(lex);
 
     if (leaLexerTokenSimple(lex, tok))
+        return;
+    if (leaLexerTokenString(lex, tok))
         return;
 
     if (lex->cursor == lex->bufferSize)
@@ -90,7 +117,7 @@ LeaError leaLexerLoadString(LeaState* state, const char* str, size_t size)
     return LEA_OK;
 }
 
-void leaLexerAdvanceToken(LeaState* state)
+void leaLexerNextToken(LeaState* state)
 {
     LeaLexer* lex = &state->lexer;
     LeaToken* tok;

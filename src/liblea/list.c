@@ -3,15 +3,19 @@
 #include <liblea/list.h>
 #include <liblea/value.h>
 
-LEA_API LeaError leaListCreate(LeaValue* value)
+LEA_API LeaError leaListCreate(LeaState* state, LeaValue* value)
 {
+    UNUSED(state);
+
     *value = leaValueCreatePtr(LEA_TYPE_LIST, NULL);
     return LEA_OK;
 }
 
-LEA_API LeaError leaListPrepend(LeaValue* dst, LeaValue list, LeaValue element)
+LEA_API LeaError leaListPrepend(LeaState* state, LeaValue* dst, LeaValue list, LeaValue element)
 {
     LeaPair* p;
+
+    UNUSED(state);
 
     p = malloc(sizeof(LeaPair));
     if (!p)
@@ -24,19 +28,21 @@ LEA_API LeaError leaListPrepend(LeaValue* dst, LeaValue list, LeaValue element)
     return LEA_OK;
 }
 
-LEA_API LeaError leaListReverse(LeaValue* dst, LeaValue list)
+LEA_API LeaError leaListReverse(LeaState* state, LeaValue* dst, LeaValue list)
 {
     LeaValue newList;
     LeaPair* p;
 
-    leaListCreate(&newList);
+    UNUSED(state);
+
+    leaListCreate(state, &newList);
 
     for (;;)
     {
         p = leaValueGetPtr(list);
         if (!p)
             break;
-        leaListPrepend(&newList, newList, p->car);
+        leaListPrepend(state, &newList, newList, p->car);
         list = p->cdr;
     }
 
@@ -44,9 +50,11 @@ LEA_API LeaError leaListReverse(LeaValue* dst, LeaValue list)
     return LEA_OK;
 }
 
-LEA_API LeaError leaListCar(LeaValue* dst, LeaValue list)
+LEA_API LeaError leaListCar(LeaState* state, LeaValue* dst, LeaValue list)
 {
     LeaPair* p;
+
+    UNUSED(state);
 
     p = leaValueGetPtr(list);
     if (!p)
@@ -56,9 +64,11 @@ LEA_API LeaError leaListCar(LeaValue* dst, LeaValue list)
     return LEA_OK;
 }
 
-LEA_API LeaError leaListCdr(LeaValue* dst, LeaValue list)
+LEA_API LeaError leaListCdr(LeaState* state, LeaValue* dst, LeaValue list)
 {
     LeaPair* p;
+
+    UNUSED(state);
 
     p = leaValueGetPtr(list);
     if (!p)
