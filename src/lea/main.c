@@ -40,7 +40,7 @@ static LeaValue printLine(LeaState* state, LeaValue line)
 
 int main(int argc, char** argv)
 {
-    static const char code[] = "(print-line \"Hello, world!\")";
+    static const char code[] = "(print-line '\"Hello, world!\")";
     LeaState* l;
 
     leaCreateState(&l);

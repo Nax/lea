@@ -69,8 +69,28 @@ static int leaParseList(LeaState* state, LeaValue* dst)
     return 1;
 }
 
+static int leaParseQuoteExpr(LeaState* state, LeaValue* dst)
+{
+    LeaValue list;
+    LeaValue v;
+
+    if (!(accept(state, TOKEN_QUOTE)))
+        return 0;
+
+    leaListCreate(state, &list);
+    leaParseValue(state, &v);
+    leaListPrepend(state, &list, list, v);
+    leaSymbolCreateC(state, &v, "quote");
+    leaListPrepend(state, &list, list, v);
+
+    *dst = list;
+    return 1;
+}
+
 static int leaParseValue(LeaState* state, LeaValue* dst)
 {
+    if (leaParseQuoteExpr(state, dst))
+        return 1;
     if (leaParseString(state, dst))
         return 1;
     if (leaParseSymbol(state, dst))
