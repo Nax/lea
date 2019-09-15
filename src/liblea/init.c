@@ -30,11 +30,18 @@
 LEA_API LeaError leaCreateState(LeaState** dstState)
 {
     LeaState* state;
+    LeaError err;
 
     state = zalloc(sizeof(LeaState));
 
     if (!state)
         return LEA_ERROR_OUT_OF_MEMORY;
+
+    if ((err = leaSymbolPoolInit(state)))
+    {
+        leaDestroyState(state);
+        return err;
+    }
 
     *dstState = state;
     return LEA_OK;

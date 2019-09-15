@@ -11,8 +11,7 @@ static void leaDebugPrintRaw(LeaState* state, LeaValue v)
 
 static void leaDebugPrintSymbol(LeaState* state, LeaValue v)
 {
-    (void)v;
-    printf(":SYMBOL");
+    printf("%s", (const char*)leaValueGetPtr(v));
 }
 
 static void leaDebugPrintString(LeaState* state, LeaValue v)

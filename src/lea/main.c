@@ -40,21 +40,11 @@ static LeaValue printLine(LeaState* state, LeaValue line)
 
 int main(int argc, char** argv)
 {
-    //static const char code[] = "(print-line \"Hello, world!\")";
+    static const char code[] = "(print-line \"Hello, world!\")";
     LeaState* l;
-    LeaValue list;
-    LeaValue func;
-    LeaValue str;
-    LeaValue tmp;
 
     leaCreateState(&l);
-    //leaLoadString(l, code, strlen(code));
-    leaFunctionCreateC(l, &func, &printLine, 1, 0);
-    leaStringCreateC(l, &str, "Hello, world!");
-    leaListCreate(l, &list);
-    leaListPrepend(l, &list, list, str);
-    leaListPrepend(l, &list, list, func);
-    leaEval(l, &tmp, list);
+    leaLoadString(l, code, strlen(code));
     leaDestroyState(l);
 
     return 0;

@@ -31,11 +31,13 @@
 #include <liblea/lexer.h>
 #include <liblea/parser.h>
 #include <liblea/list.h>
+#include <liblea/symbol.h>
 #include <liblea/value.h>
 
 struct LeaState_
 {
-    LeaLexer    lexer;
+    LeaLexer        lexer;
+    LeaSymbolPool   symPool;
 };
 
 #endif
